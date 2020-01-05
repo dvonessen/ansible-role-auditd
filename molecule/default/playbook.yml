@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  debugger: on_failed
+  roles:
+    - role: ansible-role-auditd
+  vars:
+    auditd_local_events: "no"  # Do not record local events in docker container

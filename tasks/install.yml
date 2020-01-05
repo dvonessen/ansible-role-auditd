@@ -1,0 +1,30 @@
+---
+- name: install auditd
+  block:
+  - name: install auditd service
+    package:
+      name: "{{ auditd_package }}"
+      state: present
+    become: true
+
+  - name: set correct permissions to directory and files
+    file:
+      owner: root
+      group: root
+      mode: 0750
+      path: "{{ auditd_conf_path }}"
+      state: directory
+
+  - name: ensure log directory exists
+    file:
+      path: "{{ auditd_log_file | dirname }}"
+      owner: root
+      group: root
+      mode: 0740
+      state: directory
+
+  - name: enable auditd service
+    systemd:
+      name: auditd
+      enabled: true
+      daemon_reload: true

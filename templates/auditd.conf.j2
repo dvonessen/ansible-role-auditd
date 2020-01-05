@@ -1,0 +1,35 @@
+# {{ ansible_managed }}
+# For more information see man 5 auditd.conf
+
+priority_boost = {{ auditd_priority_boost }}
+
+{% if auditd_name_format == "user" and auditd_name | length -%}
+name_format = {{ auditd_name_format }}
+name = {{ auditd_name }}
+{% else -%}
+name_format = {{ auditd_name_format }}
+# name="empty"
+{% endif %}
+
+verify_email = {{ auditd_verify_email }}
+action_mail_acct = {{ auditd_action_mail_acct }}
+local_events = {{ auditd_local_events }}
+flush = {{ auditd_flush }}
+freq = {{ auditd_freq }}
+log_file = {{ auditd_log_file }}
+write_logs = {{ auditd_write_logs }}
+log_format = {{ auditd_log_format }}
+log_group = {{ auditd_log_group }}
+num_logs = {{ auditd_num_logs }}
+max_log_file = {{ auditd_max_log_file }}
+space_left = {{ auditd_space_left }}
+space_left_action = {{ auditd_space_left_action }}
+admin_space_left = {{ auditd_admin_space_left }}
+admin_space_left_action = {{ auditd_admin_space_left_action }}
+disk_full_action = {{ auditd_disk_full_action }}
+disk_error_action = {{ auditd_disk_error_action }}
+
+# extra configuration
+{%- for extra_config_key, extra_config_value in auditd_extra_config.items() -%}
+{{ extra_config_key }} = {{ extra_config_value }}
+{% endfor %}

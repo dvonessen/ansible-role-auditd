@@ -1,0 +1,92 @@
+---
+
+# Path where all configuration and rules are stored
+auditd_conf_path: /etc/audit
+
+# Auditd's rules directory mostly under conf_path
+auditd_rules_directory: "{{ auditd_conf_path }}/rules.d"
+
+# Auditd's plugins directory mostly under conf_path
+auditd_plugins_directory: "{{ auditd_conf_path }}/plugins.d"
+
+# Local source directory, where custom rules are stored to copy to target
+auditd_src_rules_directory: ""
+
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# All configuration parameters are documented in man 5 auditd.conf  #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# Non-Negativ number to configure priority_boost
+auditd_priority_boost: 4
+
+# How node names are insterted into audit records
+# Possible values: none, hostname, fqd, numeric, user
+auditd_name_format: none
+
+# Static string used when auditd_name_format is user
+auditd_name: ""
+
+# Verifies email address by resolving the domain part
+auditd_verify_email: "yes"
+
+# Mail address to send notifications if actions are happened
+auditd_action_mail_acct: root
+
+# Change only to false, if you want to collect auditd logs only from
+# remotes or running auditd in container you want to set it to false
+auditd_local_events: "yes"
+
+# How autid handles flushing audit logs to disk.
+# Possible values: none, incremental, incremental_async, data, sync
+auditd_flush: incremental_async
+
+# How many records will be written until explicit flush to disk is issued
+auditd_freq: 10
+
+# Auditd's log file directory
+auditd_log_file: /var/log/audit/audit.log
+
+# You want to write logs to disk, do not change!
+auditd_write_logs: "yes"
+
+# Auditd's log format either use ENRICHED or RAW
+# ENRICHED will resolve all uid, gid, syscall, architecture,
+# and socket address information before writing the event to disk
+auditd_log_format: "ENRICHED"
+
+# Loggroup which auditd uses to set the group of logfiles
+# Can be UID or spelled out
+auditd_log_group: root
+
+# Keep number of rotated logfiles before delteting oldest
+auditd_num_logs: 5
+
+# Max log file size in MB
+auditd_max_log_file: 100
+
+# Min space left on disk in MB
+auditd_space_left: 1024
+
+# Action to be taken when auditd_space_lest will be fallen below it's value
+auditd_space_left_action: syslog
+
+# Same as auditd_space_left except it hast to be slightly less than
+# auditd_space_left (more critical)
+# If value is greater, same or 0 it will be set to auditd_space_left - 1
+auditd_admin_space_left: 0
+
+# Same as auditd_space_left_action
+auditd_admin_space_left_action: suspend
+
+# Action to be taken if disk is detected as full.
+# If empty it will be the same as auditd_admin_space_left_action
+auditd_disk_full_action: "{{ auditd_admin_space_left_action }}"
+
+# Actions to be taken if auditd has encountered errors while writting
+# logs to disk. If empty it will be the same as auditd_admin_space_left_action.
+auditd_disk_error_action: "{{ auditd_admin_space_left_action }}"
+
+# Pass extra configuration parameters to place it into auditd.conf
+auditd_extra_config: {}
+#  tcp_client_ports: 1234
+#  tcp_client_max_idle: 123

@@ -1,0 +1,28 @@
+---
+- name: configure auditd and audit rules
+  block:
+    - name: configure auditd
+      template:
+        dest: "{{ auditd_conf_path }}/auditd.conf"
+        src: auditd.conf.j2
+        owner: root
+        group: root
+        mode: 0750
+      notify:
+        - reload auditd
+
+    - name: configure audit rules
+      template:
+        dest:
+
+    - name: copy custom rules
+      copy:
+        src: "{{ item }}"
+        dest: "{{ auditd_rules_directory }}/"
+        owner: root
+        group: root
+        mode: 0640
+        validate: undefined
+      with_fileglob:
+        - "{{ auditd_src_rules_directory }}/*.rules"
+      when: auditd_src_rules_directory | length > 0
