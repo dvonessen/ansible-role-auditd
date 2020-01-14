@@ -1,28 +1,42 @@
 ---
-- name: configure auditd and audit rules
+- name: set some internal variables
   block:
-    - name: configure auditd
-      template:
-        dest: "{{ auditd_conf_path }}/auditd.conf"
-        src: auditd.conf.j2
-        owner: root
-        group: root
-        mode: 0750
-      notify:
-        - reload auditd
+  - name: get auditd version
+    command: "auditctl -v"
+    register: auditd_auditctl_result
+    changed_when: false
 
-    - name: configure audit rules
-      template:
-        dest:
+  - name: set auditd version variable
+    set_fact:
+      __auditd_auditd_version: '{{ auditd_auditctl_result.stdout.split(" ")[2] }}'
 
-    - name: copy custom rules
-      copy:
-        src: "{{ item }}"
-        dest: "{{ auditd_rules_directory }}/"
-        owner: root
-        group: root
-        mode: 0640
-        validate: undefined
-      with_fileglob:
-        - "{{ auditd_src_rules_directory }}/*.rules"
-      when: auditd_src_rules_directory | length > 0
+- name: configure auditd
+  template:
+    dest: "{{ auditd_conf_path }}/auditd.conf"
+    src: auditd.conf.j2
+    owner: root
+    group: root
+    mode: 0640
+  notify:
+    - restart auditd
+
+- name: configure auditd rules
+  template:
+    dest: "{{ auditd_rules_directory }}/10_default.rules"
+    src: default.rules.j2
+    owner: root
+    group: root
+    mode: 0640
+
+- name: copy custom rules
+  copy:
+    src: "{{ item }}"
+    dest: "{{ auditd_rules_directory }}/"
+    owner: root
+    group: root
+    mode: 0640
+  with_fileglob:
+    - "{{ auditd_src_rules_directory }}/*.rules"
+  when: auditd_src_rules_directory | length > 0
+  notify:
+    - load rules

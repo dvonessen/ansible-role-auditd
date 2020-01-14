@@ -1,4 +1,7 @@
 ---
+# # # # # # # # # # # # # # # # #
+#  Role specific configurations #
+# # # # # # # # # # # # # # # # #
 
 # Path where all configuration and rules are stored
 auditd_conf_path: /etc/audit
@@ -9,11 +12,9 @@ auditd_rules_directory: "{{ auditd_conf_path }}/rules.d"
 # Auditd's plugins directory mostly under conf_path
 auditd_plugins_directory: "{{ auditd_conf_path }}/plugins.d"
 
-# Local source directory, where custom rules are stored to copy to target
-auditd_src_rules_directory: ""
-
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # All configuration parameters are documented in man 5 auditd.conf  #
+# Audtid daemon configuration                                       #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Non-Negativ number to configure priority_boost
@@ -90,3 +91,39 @@ auditd_disk_error_action: "{{ auditd_admin_space_left_action }}"
 auditd_extra_config: {}
 #  tcp_client_ports: 1234
 #  tcp_client_max_idle: 123
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Documentation in man auditctl and man audit.rules #
+# # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# Buffer size and backlog time
+auditd_rules_buffer_size: 8096
+auditd_rules_backlog_wait_time: 60000
+
+# Handles what will happen if auditd detects failuers in cs_configuration
+# Possible values: 0, 1, 2
+# 0 - Nothing happens
+# 1 - Log to syslog
+# 2 - Kernel panic
+auditd_rules_failure_mode: 1
+
+# Flag to enable immutability of auditd rules
+# If enabled, you have to reboot if there are rule changes
+auditd_rules_set_immutable: false
+
+# Enables default rule set
+# See templates/default.rules.j2
+auditd_rules_default: true
+
+# Define either extra rules or a complete new rule set
+# Each list field will be a new rule
+# If auditd_rules_default = false, only extra rules will be used
+# If auditd_rules_default = true, rules will be added to the end
+auditd_rules_extra_rules_set: []
+#  - "-a exit,always -F path=file -F perm=rwxa -F key=text"
+#  - "-a exit,always -F dir=directory -F perm=rwxa -F key=text"
+
+# Local source directory, where custom rules are stored to copy to target
+# If this variable is used, no rule set from above will be used. You
+# have to create all your rules by yourself
+auditd_src_rules_directory: ""

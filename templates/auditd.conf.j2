@@ -11,7 +11,13 @@ name_format = {{ auditd_name_format }}
 # name="empty"
 {% endif %}
 
+{# Workaround for debian 9
+Auditd's option verify_email is available since auditd version 2.7.8.
+On debian 9 auditd's version is 2.4 #}
+{% if __auditd_auditd_version is version('2.7.8', '>=') %}
 verify_email = {{ auditd_verify_email }}
+{% endif %}
+
 action_mail_acct = {{ auditd_action_mail_acct }}
 local_events = {{ auditd_local_events }}
 flush = {{ auditd_flush }}

@@ -4,15 +4,15 @@
     name: auditd
     state: restarted
     use: service
+  become: true
 
-- name: reload auditd
-  service:
-    name: auditd
-    state: reloaded
-    use: service
+- name: run augenrules
+  command: augenrules
+  notify: load rules
+  become: true
 
 - name: load rules
-  service:
-    name: auditd
-    state: reloaded
-    use: service
+  command: augenrules --load
+  become: true
+  when:
+    - ansible_virtualization_type != "docker"
