@@ -1,0 +1,48 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+platforms:
+  - name: auditd-centos8
+    box: centos/8
+    memory: 1536
+    cpus: 4
+    provider_raw_config_args:
+      - "customize ['modifyvm', :id, '--nested-hw-virt', 'on']"
+  - name: auditd-centos7
+    box: centos/7
+    memory: 1536
+    cpus: 4
+    provider_raw_config_args:
+      - "customize ['modifyvm', :id, '--nested-hw-virt', 'on']"
+  - name: auditd-debian9
+    box: debian/stretch64
+    memory: 1536
+    cpus: 4
+    provider_raw_config_args:
+      - "customize ['modifyvm', :id, '--nested-hw-virt', 'on']"
+  - name: auditd-debian10
+    box: debian/buster64
+    memory: 1536
+    cpus: 4
+    provider_raw_config_args:
+      - "customize ['modifyvm', :id, '--nested-hw-virt', 'on']"
+  - name: auditd-ubuntu18.04
+    box: ubuntu/bionic64
+    memory: 1536
+    cpus: 4
+    provider_raw_config_args:
+      - "customize ['modifyvm', :id, '--nested-hw-virt', 'on']"
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
