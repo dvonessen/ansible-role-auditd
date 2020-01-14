@@ -2,9 +2,7 @@
 galaxy_info:
   author: Daniel von Essen
   description: This role installs and maintains auditd
-
   min_ansible_version: 2.9
-
   platforms:
   - name: RHEL
     versions:
@@ -14,7 +12,13 @@ galaxy_info:
     versions:
       - 10
       - 9
+  - name: Ubuntu
+    versions:
+      - 18.04
+      - 19.04
+      - 19.10
+  galaxy_tags: [security, system, logging]
 
-  galaxy_tags: [security, system]
+  license: MIT
 
 dependencies: []
