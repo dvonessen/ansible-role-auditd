@@ -1,7 +1,7 @@
 ---
 - name: install auditd service
   package:
-    name: "{{ auditd_package }}"
+    name: "{{ auditd_packages }}"
     state: present
 
 - name: set correct permissions to directory and files

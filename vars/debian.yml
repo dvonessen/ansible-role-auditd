@@ -1,3 +1,3 @@
 ---
 # System dependend package name
-auditd_package: auditd
+auditd_packages: auditd
