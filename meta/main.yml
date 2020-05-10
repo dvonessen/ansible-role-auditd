@@ -4,12 +4,12 @@ galaxy_info:
   description: This role installs and maintains auditd
   min_ansible_version: 2.9
   platforms:
-  - name: CentOS
-    versions:
-      - 8
-  - name: Debian
-    versions:
-      - 10
+    - name: EL
+      versions:
+        - 8
+    - name: Debian
+      versions:
+        - buster
   galaxy_tags: [security, system, logging]
 
   license: MIT
