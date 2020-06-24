@@ -2,22 +2,22 @@
 dependency:
   name: galaxy
 driver:
-  name: vagrant
-  provider:
-    name: virtualbox
+  name: docker
 platforms:
   - name: auditdcentos8
-    box: centos/8
-    box_version: 1905.1
-    memory: 4096
-    cpus: 4
-    provision: true
+    image: registry.gitlab.com/dvonessen/docker-molecule-nonroot/centos:8-systemd
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    command: "/usr/lib/systemd/systemd"
   - name: auditddebian10
-    box: debian/buster64
-    box_version: 10.3.0
-    memory: 4096
-    cpus: 4
-    provision: true
+    image: registry.gitlab.com/dvonessen/docker-molecule-nonroot/debian:10-systemd
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    command: "/lib/systemd/systemd"
 provisioner:
   name: ansible
   config_options:
