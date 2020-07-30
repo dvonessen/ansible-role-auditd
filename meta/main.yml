@@ -10,6 +10,9 @@ galaxy_info:
     - name: Debian
       versions:
         - buster
+    - name: Ubuntu
+      versions:
+        - 20.04
     - name: ArchLinux
       versions:
         - Any
