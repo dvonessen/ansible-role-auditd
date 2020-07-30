@@ -18,6 +18,13 @@ platforms:
     volumes:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
     command: "/lib/systemd/systemd"
+  - name: auditdarchlinux
+    image: registry.gitlab.com/dvonessen/docker-molecule-nonroot/archlinux:latest-systemd
+    command: /usr/lib/systemd/systemd
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
 provisioner:
   name: ansible
   config_options:

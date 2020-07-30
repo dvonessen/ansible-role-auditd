@@ -6,11 +6,15 @@
 
 - name: set correct permissions to directory and files
   file:
+    path: "{{ item }}"
+    state: directory
     owner: root
     group: root
     mode: 0740
-    path: "{{ auditd_conf_path }}"
-    state: directory
+  loop:
+    - "{{ auditd_conf_path }}"
+    - "{{ auditd_rules_directory }}"
+    - "{{ auditd_plugins_directory }}"
 
 - name: ensure log directory exists
   file:

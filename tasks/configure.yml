@@ -1,14 +1,14 @@
 ---
 - name: set some internal variables
   block:
-  - name: get auditd version
-    command: "auditctl -v"
-    register: auditd_auditctl_result
-    changed_when: false
+    - name: get auditd version
+      command: "auditctl -v"
+      register: auditd_auditctl_result
+      changed_when: false
 
-  - name: set auditd version variable
-    set_fact:
-      __auditd_auditd_version: '{{ auditd_auditctl_result.stdout.split(" ")[2] }}'
+    - name: set auditd version variable
+      set_fact:
+        __auditd_auditd_version: '{{ auditd_auditctl_result.stdout.split(" ")[2] }}'
 
 - name: configure auditd
   template:

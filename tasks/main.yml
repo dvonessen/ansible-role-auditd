@@ -1,6 +1,17 @@
 ---
-- name: include os dependent vars file
-  include_vars: "{{ ansible_os_family | lower }}.yml"
+- name: include os dependent variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution | lower }}{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_distribution | lower }}.yml"
+        - "{{ ansible_os_family | lower }}.yml"
+        - main.yml
+      skip: true
+  tags:
+    - auditd_all
+    - auditd_install
+    - auditd_configure
 
 - name: include install.yml
   import_tasks: install.yml

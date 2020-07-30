@@ -1,0 +1,4 @@
+---
+# System dependend package name
+auditd_packages:
+  - audit
